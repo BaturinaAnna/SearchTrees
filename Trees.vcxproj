@@ -139,13 +139,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AVLTree.cpp" />
+    <ClCompile Include="CartesianTree.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeAVL.cpp" />
+    <ClCompile Include="NodeCartesian.cpp" />
     <ClCompile Include="RedBlackTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVLTree.h" />
+    <ClInclude Include="CartesianTree.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeAVL.h" />
+    <ClInclude Include="NodeCartesian.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>

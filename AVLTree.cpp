@@ -1,25 +1,24 @@
 #include "AVLTree.h"
 
-AVLTree::AVLTree(std::set<int> tree) {
-    set<int>::iterator setIt = tree.begin();
-    Node* root = new Node(*setIt);
-    setIt++;
-    for (int i = 1; i < tree.size(); i++) {
-        root = insert_element(root, *setIt);
-        setIt++;
+AVLTree::AVLTree(std::vector<int> tree) {
+    Node* root = nullptr;
+    for (auto val : tree) {
+        Node* ins_node = new NodeAVL(val);
+        root = insert_element(root, ins_node);
     }
     this->root = root;
 }
  
 Node* AVLTree::rightRotate(Node* y) {
-    Node* x = y->getLeft();
-    Node* T2 = x->getRight();
+    NodeAVL* yy = dynamic_cast<NodeAVL*>(y);
+    NodeAVL* x = dynamic_cast<NodeAVL*>(yy->getLeft());
+    NodeAVL* T2 = dynamic_cast<NodeAVL*>(x->getRight());
  
-    x->setRight(y);
-    y->setLeft(T2);
+    x->setRight(yy);
+    yy->setLeft(T2);
 
-    y->setHeight(max((y->getLeft())->getHeight(), (y->getRight())->getHeight()) + 1);
-    x->setHeight(max((x->getLeft())->getHeight(), (x->getRight())->getHeight()) + 1);
+    yy->setHeight(max(dynamic_cast<NodeAVL*>(yy->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(yy->getRight())->getHeight()) + 1);
+    x->setHeight(max(dynamic_cast<NodeAVL*>(x->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(x->getRight())->getHeight()) + 1);
 
     root = x;
     return x;
@@ -27,14 +26,15 @@ Node* AVLTree::rightRotate(Node* y) {
 
 
 Node* AVLTree::leftRotate(Node* x) {
-    Node* y = x->getRight();
-    Node* T2 = y->getLeft();
+    NodeAVL* xx = dynamic_cast<NodeAVL*>(x);
+    NodeAVL* y = dynamic_cast<NodeAVL*>(x->getRight());
+    NodeAVL* T2 = dynamic_cast<NodeAVL*>(y->getLeft());
  
-    y->setLeft(x);
-    x->setRight(T2);
+    y->setLeft(xx);
+    xx->setRight(T2);
 
-    x->setHeight(max((x->getLeft())->getHeight(), (x->getRight())->getHeight()) + 1);
-    y->setHeight(max((y->getLeft())->getHeight(), (y->getRight())->getHeight()) + 1);
+    xx->setHeight(max(dynamic_cast<NodeAVL*>(xx->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(xx->getRight())->getHeight()) + 1);
+    y->setHeight(max(dynamic_cast<NodeAVL*>(y->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(y->getRight())->getHeight()) + 1);
 
     root = y;
     return y;
@@ -44,120 +44,125 @@ Node* AVLTree::leftRotate(Node* x) {
 int AVLTree::getBalance(Node* N) {
     if (N == nullptr)
         return 0;
-    return (N->getLeft())->getHeight() - (N->getRight())->getHeight();
+    return dynamic_cast<NodeAVL*>(N->getLeft())->getHeight() - dynamic_cast<NodeAVL*>(N->getRight())->getHeight();
 }
 
 
-Node* AVLTree::insert_element(Node* root, int key) {
-    if (root == nullptr)
-        return new Node(key);
+Node* AVLTree::insert_element(Node* root, Node* ins_node) {
+    int key = ins_node->getKey();
 
+    if (root == nullptr)
+        return new NodeAVL(key);
+
+    
     if (key < root->getKey())
-        root->setLeft(insert_element(root->getLeft(), key));
+        root->setLeft(insert_element(dynamic_cast<NodeAVL*>(root->getLeft()), ins_node));
     else if (key > root->getKey())
-        root->setRight(insert_element(root->getRight(), key));
+        root->setRight(insert_element(dynamic_cast<NodeAVL*>(root->getRight()), ins_node));
     else
         return root;
 
-    root->setHeight(1 + max((root->getLeft())->getHeight(), (root->getRight())->getHeight()));
+    NodeAVL* rroot = dynamic_cast<NodeAVL*>(root);
+    rroot->setHeight(1 + max(dynamic_cast<NodeAVL*>(rroot->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(rroot->getRight())->getHeight()));
 
-    int balance = getBalance(root);
+    int balance = getBalance(rroot);
 
     // Left Left Case  
-    if (balance > 1 && key < root->getLeft()->getKey())
-        return rightRotate(root);
+    if (balance > 1 && key < rroot->getLeft()->getKey())
+        return rightRotate(rroot);
 
     // Right Right Case  
-    if (balance < -1 && key > root->getRight()->getKey())
-        return leftRotate(root);
+    if (balance < -1 && key > rroot->getRight()->getKey())
+        return leftRotate(rroot);
 
     // Left Right Case  
-    if (balance > 1 && key > root->getLeft()->getKey()) {
-        root->setLeft(leftRotate(root->getLeft()));
-        return rightRotate(root);
+    if (balance > 1 && key > rroot->getLeft()->getKey()) {
+        rroot->setLeft(leftRotate(dynamic_cast<NodeAVL*>(rroot->getLeft())));
+        return rightRotate(rroot);
     }
 
     // Right Left Case  
-    if (balance < -1 && key < root->getRight()->getKey()) {
-        root->setRight(rightRotate(root->getRight()));
-        return leftRotate(root);
+    if (balance < -1 && key < rroot->getRight()->getKey()) {
+        rroot->setRight(rightRotate(dynamic_cast<NodeAVL*>(rroot->getRight())));
+        return leftRotate(rroot);
     }
 
-    this->root = root;
-    return root;
+    this->root = rroot;
+    return rroot;
 }
 
 
 Node* AVLTree::minValueNode(Node* node) {
-    Node* current = node;
+    NodeAVL* current = dynamic_cast<NodeAVL*>(node);
 
     while (current->getLeft() != nullptr)
-        current = current->getLeft();
+        current = dynamic_cast<NodeAVL*>(current->getLeft());
 
     return current;
 }
 
 
-Node* AVLTree::delete_element(Node* root, int key)
-{ 
+Node* AVLTree::delete_element(Node* root, Node* ins_node) {
+    int key = ins_node->getKey();
+
     if (root == nullptr)
         return root;
 
     if (key < root->getKey())
-        root->setLeft(delete_element(root->getLeft(), key));
+        root->setLeft(delete_element(dynamic_cast<NodeAVL*>(root->getLeft()), ins_node));
  
     else if (key > root->getKey())
-        root->setRight(delete_element(root->getRight(), key));
+        root->setRight(delete_element(dynamic_cast<NodeAVL*>(root->getRight()), ins_node));
  
     else { 
         if ((root->getLeft() == nullptr) || (root->getRight() == nullptr)) {
-            Node* temp = root->getLeft() ? root->getLeft() : root->getRight();
+            Node* temp = root->getLeft() ? dynamic_cast<NodeAVL*>(root->getLeft()) : dynamic_cast<NodeAVL*>(root->getRight());
   
             if (temp == nullptr) {
                 temp = root;
                 root = nullptr;
             }
             else
-                *root = *temp;  
+                *root = *temp;
             free(temp);
         }
         else { 
-            Node* temp = minValueNode(root->getRight());
+            NodeAVL* temp = dynamic_cast<NodeAVL*>(minValueNode((root->getRight())));
             root->setKey(temp->getKey());
-            root->setRight(delete_element(root->getRight(), temp->getKey()));
-            //delete_element(root->getRight(), temp->getKey());
+            root->setRight(delete_element(dynamic_cast<NodeAVL*>(root->getRight()), temp));
         }
     }
 
     if (root == nullptr)
         return root;
  
-    root->setHeight(1 + max((root->getLeft())->getHeight(), (root->getRight())->getHeight()));
+    NodeAVL* rroot = dynamic_cast<NodeAVL*>(root);
+    rroot->setHeight(1 + max(dynamic_cast<NodeAVL*>(rroot->getLeft())->getHeight(), dynamic_cast<NodeAVL*>(rroot->getRight())->getHeight()));
 
-    int balance = getBalance(root);
+    int balance = getBalance(rroot);
 
     // Left Left Case  
-    if (balance > 1 && getBalance(root->getLeft()) >= 0)
-        return rightRotate(root);
+    if (balance > 1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getLeft())) >= 0)
+        return rightRotate(rroot);
 
     // Left Right Case  
-    if (balance > 1 && getBalance(root->getLeft()) < 0)
+    if (balance > 1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getLeft())) < 0)
     {
-        root->setLeft(leftRotate(root->getLeft()));
-        return rightRotate(root);
+        rroot->setLeft(leftRotate(dynamic_cast<NodeAVL*>(rroot->getLeft())));
+        return rightRotate(rroot);
     }
 
     // Right Right Case  
-    if (balance < -1 && getBalance(root->getRight()) <= 0)
-        return leftRotate(root);
+    if (balance < -1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getRight())) <= 0)
+        return leftRotate(rroot);
 
     // Right Left Case  
-    if (balance < -1 && getBalance(root->getRight()) > 0)
+    if (balance < -1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getRight())) > 0)
     {
-        root->setRight(rightRotate(root->getRight()));
-        return leftRotate(root);
+        rroot->setRight(rightRotate(dynamic_cast<NodeAVL*>(rroot->getRight())));
+        return leftRotate(rroot);
     }
-    return root;
+    return rroot;
 }
 
 bool search(Node* root, int key, bool finded) {
@@ -176,7 +181,8 @@ bool search(Node* root, int key, bool finded) {
     return finded;
 }
 
-bool AVLTree::search_element(Node* root, int key) {
+bool AVLTree::search_element(Node* root, Node* ins_node) {
+    int key = ins_node->getKey();
     bool finded = false;
     return search(root, key, finded);
 }
