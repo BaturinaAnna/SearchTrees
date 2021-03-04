@@ -8,11 +8,14 @@
 
 
 int main() {
-	vector<vector<int>> s = {{10, 13}, {7, 12}, {5, 7}, {4, 3}, {6, 1}, {15, 10}, {14, 9}, {20, 9}, {18, 7}};
+	srand(time(NULL));
+	vector<int> s = {10, 11, 12, 7, 2, 1};
 	CartesianTree* t = new CartesianTree(s);
-	cout << t -> getRoot()->getRight();
-	//t->print(t->getRoot());
-
+	cout << t -> getRoot()->getKey() << endl;
+	t->print(t->getRoot());
+	t->delete_element(t->getRoot(), 2);
+	cout << endl;
+	t->print(t->getRoot());
 
 	/*
 	std::set<int> my_little_set = {1, 3, 10, 5, 11, 13, 4, 2};

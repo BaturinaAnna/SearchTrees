@@ -11,9 +11,9 @@ private:
 	Node* root;
 public:
 	AVLTree(std::vector<int>);
-	Node* insert_element(Node*, Node*);
-	Node* delete_element(Node*, Node*);
-	bool search_element(Node*, Node*);
+	Node* insert_element(Node*, int);
+	Node* delete_element(Node*, int);
+	bool search_element(Node*, int);
 
 	Node* rightRotate(Node*);
 	Node* leftRotate(Node*);

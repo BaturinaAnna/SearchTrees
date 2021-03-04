@@ -1,2 +1,3 @@
-﻿  main.cpp
+﻿  CartesianTree.cpp
+C:\Users\Batur\HSE\nis\Trees\CartesianTree.cpp(6,20): warning C4018: <: несоответствие типов со знаком и без знака
   Trees.vcxproj -> C:\Users\Batur\HSE\nis\Trees\Debug\Trees.exe
