@@ -72,24 +72,22 @@ Node* CartesianTree::delete_element(Node* T, int x) {
 	split(T, x, T1, T2);
 	Node* node = T1->getRight();
 	Node* parent = T1;
-	while (node && node->getKey() <= x) {
+	while (node && node->getKey() < x) {
 		node = node->getRight();
 		parent = parent->getRight();
 	}
 	parent->setRight(nullptr);
-	Node* Tres = nullptr;
-	merge(Tres, T1, T2);
-	//merge();
-	this->root = Tres;
-	return Tres;
+	Node* Tres1 = nullptr;
+	Node* Tres2 = nullptr;
+	merge(Tres1, node->getLeft(), node->getRight());
+	parent->setRight(Tres1);
+	merge(Tres2, T1, T2);
+	this->root = Tres2;
+	return Tres2;
 }
 
 Node* CartesianTree::getRoot() {
 	return this->root;
-}
-
-bool CartesianTree::search_element(Node*, int) {
-	return 1;
 }
 
 void CartesianTree::print(Node* root) {
@@ -98,6 +96,27 @@ void CartesianTree::print(Node* root) {
 		print(root->getLeft());
 		print(root->getRight());
 	}
+}
+
+bool search_cartesian(Node* root, int key, bool finded) {
+	if (root != nullptr)
+	{
+		if (root->getKey() == key) {
+			finded = true;
+		}
+		else if (root->getKey() < key) {
+			finded = search_cartesian(root->getRight(), key, finded);
+		}
+		else {
+			finded = search_cartesian(root->getLeft(), key, finded);
+		}
+	}
+	return finded;
+}
+
+bool CartesianTree::search_element(Node* root, int key) {
+	bool finded = false;
+	return search_cartesian(root, key, finded);
 }
 
 /*
