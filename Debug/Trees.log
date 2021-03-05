@@ -1,3 +1,3 @@
-﻿  CartesianTree.cpp
-C:\Users\Batur\HSE\nis\Trees\CartesianTree.cpp(6,20): warning C4018: <: несоответствие типов со знаком и без знака
+﻿  main.cpp
+C:\Users\Batur\HSE\nis\Trees\main.cpp(11,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   Trees.vcxproj -> C:\Users\Batur\HSE\nis\Trees\Debug\Trees.exe

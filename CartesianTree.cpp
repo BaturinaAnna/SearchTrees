@@ -1,5 +1,6 @@
 #include "CartesianTree.h"
 
+
 CartesianTree::CartesianTree(vector<int> tree) {
 	int prior = rand() % 1000000;
 	Node* root = new NodeCartesian(tree[0], prior);
@@ -9,45 +10,40 @@ CartesianTree::CartesianTree(vector<int> tree) {
 	this->root = root;
 }
 
-void CartesianTree::merge(Node*& T, Node* T1, Node* T2) {
-	if (T1 == nullptr || T2 == nullptr)
-		T = T1 ? T1 : T2;
-	else if (dynamic_cast<NodeCartesian*>(T1)->getPrior() >= dynamic_cast<NodeCartesian*>(T2)->getPrior()) {
-		if (T1->getRight() == nullptr)
-			T1->setRight(T2);			
-		else {
-			Node* right = T1->getRight();
-			merge(right, (T1)->getRight(), T2);
-			T1->setRight(right);
-		}
-		T = T1;		
+Node* CartesianTree::merge(Node* T1, Node* T2) {
+	if (T2 == nullptr)
+		return T1;
+	else if (T1 == nullptr)
+		return T2;
+	else if (dynamic_cast<NodeCartesian*>(T1)->getPrior() > dynamic_cast<NodeCartesian*>(T2)->getPrior()) {
+		T1->setRight(merge(T1->getRight(), T2));
+		return T1;
 	}
 	else {
-		if (T2->getLeft() == nullptr)
-			T2->setLeft(T1);
-		else {
-			Node* left = T2->getLeft();
-			merge(left, T1, (T2)->getLeft());
-			T2->setLeft(left);
-		}
-		T = T2;	
+		T2->setLeft(merge(T1, T2->getLeft()));
+		return T2;
 	}
 }
 
-void CartesianTree::split(Node* T, int x, Node*& T1, Node*& T2) {
+pair<Node*, Node*> CartesianTree::split(Node* T, int x) {
 	if (T == nullptr) {
-		T1 = NULL;
-		T2 = NULL;
+		return { nullptr, nullptr };
 	}
-	else if (x < T->getKey()) {
-		Node* left = T->getLeft();
-		split(T->getLeft(), x, T1, left);
-		T2 = T;
+	else if (x > T->getKey()) {
+		Node* T1 = nullptr;
+		Node* T2 = nullptr;
+		pair<Node*, Node*> trees = { T1, T2 };
+		trees = split(T->getRight(), x);
+		T->setRight(trees.first);
+		return { T, trees.second };
 	}
 	else {
-		Node* right = T->getRight();
-		split(T->getRight(), x, right, T2);
-		T1 = T;
+		Node* T1 = nullptr;
+		Node* T2 = nullptr;
+		pair<Node*, Node*> trees = { T1, T2 };
+		trees = split(T->getLeft(), x);
+		T->setLeft(trees.second);
+		return { trees.first, T };
 	}
 }
 
@@ -56,11 +52,12 @@ Node* CartesianTree::insert_element(Node* T, int x) {
 	NodeCartesian* Tnew = new NodeCartesian(x, prior);
 	Node* T1 = nullptr;
 	Node* T2 = nullptr;
-	split(T, x, T1, T2);
-	Node* Tres1 = NULL;
-	Node* Tres2 = NULL;
-	merge(Tres1, T1, Tnew);
-	merge(Tres2, Tres1, T2);
+	pair<Node*, Node*> trees = { T1, T2 };
+	trees = split(T, x);
+	Node* Tres1 = nullptr;
+	Node* Tres2 = nullptr;
+	Tres1 = merge(trees.first, Tnew);
+	Tres2 = merge(Tres1, trees.second);
 	this->root = Tres2;
 	return Tres2;
 }
@@ -69,21 +66,36 @@ Node* CartesianTree::insert_element(Node* T, int x) {
 Node* CartesianTree::delete_element(Node* T, int x) {
 	Node* T1 = nullptr;
 	Node* T2 = nullptr;
-	split(T, x, T1, T2);
-	Node* node = T1->getRight();
-	Node* parent = T1;
-	while (node && node->getKey() < x) {
-		node = node->getRight();
-		parent = parent->getRight();
+	Node* Tres = nullptr;
+	Node* parent = nullptr;
+	Node* node = T;
+	bool goTo = 0; //0 - left, 1 - right
+	while (node && node->getKey() != x) {
+		if (x < node->getKey()) {
+			parent = node;
+			node = node->getLeft();
+			goTo = 0;
+		}
+		else if (x > node->getKey()) {
+			parent = node;
+			node = node->getRight();
+			goTo = 1;
+		}
 	}
-	parent->setRight(nullptr);
-	Node* Tres1 = nullptr;
-	Node* Tres2 = nullptr;
-	merge(Tres1, node->getLeft(), node->getRight());
-	parent->setRight(Tres1);
-	merge(Tres2, T1, T2);
-	this->root = Tres2;
-	return Tres2;
+	if (node == nullptr) {
+		return this->root;
+	}
+	Tres = merge(node->getLeft(), node->getRight());
+	if (parent == nullptr) {
+		this->root = Tres;
+		return Tres;
+	}
+	else if (goTo == 0) {
+		parent->setLeft(Tres);
+		return this->root;
+	}
+	parent->setRight(Tres);
+	return this->root;
 }
 
 Node* CartesianTree::getRoot() {
@@ -118,85 +130,3 @@ bool CartesianTree::search_element(Node* root, int key) {
 	bool finded = false;
 	return search_cartesian(root, key, finded);
 }
-
-/*
-CartesianTree::CartesianTree(vector<vector<int>> tree) {
-	for (auto node: tree) {
-		Node* ins_node = new NodeCartesian(node[0], node[1]);
-		root = insert_element(root, ins_node);
-	}
-	this->root = root;
-}
-
-void split(Node* node, int key, Node* left, Node* right) {
-	if (node == nullptr) {
-		node->setRight(nullptr);
-		node->setLeft(nullptr);
-	}
-	else if (key < node->getKey()) {
-		split(dynamic_cast<NodeCartesian*>(node->getLeft()), key, left, dynamic_cast<NodeCartesian*>(node->getLeft()));
-		node->setRight(node);
-	}
-	else {
-		split(dynamic_cast<NodeCartesian*>(node->getRight()), key, dynamic_cast<NodeCartesian*>(node->getRight()), right);
-		left = node;
-	}
-}
-
-Node* CartesianTree::insert_element(Node* root, Node* ins_node) {
-	if (root == nullptr) {
-		root = ins_node;
-		return root;
-	}
-	else if (dynamic_cast<NodeCartesian*>(ins_node)->getPrior() > dynamic_cast<NodeCartesian*>(root)->getPrior()) {
-		split(root, ins_node->getKey(), ins_node->getLeft(), ins_node->getRight());
-		root = ins_node;
-		return root;
-	}
-	else {
-		insert_element(ins_node->getKey() < root->getKey() ? root->getLeft() : root->getRight(), ins_node);
-		return root;
-	}
-}
-
-
-void merge(Node* root, Node* left, Node* right) {
-	if (!left || !right)
-		root = left ? left : right;
-	else if (dynamic_cast<NodeCartesian*>(left)->getPrior() > dynamic_cast<NodeCartesian*>(right)->getPrior()) {
-		merge(dynamic_cast<NodeCartesian*>(left)->getRight(), dynamic_cast<NodeCartesian*>(left)->getRight(), right);
-		root = left;
-	}
-	else {
-		merge(dynamic_cast<NodeCartesian*>(right)->getLeft(), left, dynamic_cast<NodeCartesian*>(right)->getLeft());
-		root = right;
-	}
-}
-
-
-Node* CartesianTree::delete_element(Node* root, Node* ins_node) {
-	int key = ins_node->getKey();
-	if (root->getKey() == key) {
-		merge(root, root->getLeft(), root->getRight());
-		return root;
-	}
-	else
-		delete_element(key < root->getKey() ? root->getLeft() : root->getRight(), ins_node);
-}
-
-bool CartesianTree::search_element(Node*, Node*) {
-	return 0;
-}
-
-Node* CartesianTree::getRoot() {
-	return this->root;
-}
-
-void CartesianTree::print(Node* root) {
-	if (root != nullptr) {
-		cout << root->getKey() << " " << dynamic_cast<NodeCartesian*>(root)->getPrior() << "\t";
-		print(root->getLeft());
-		print(root->getRight());
-	}
-}
-*/

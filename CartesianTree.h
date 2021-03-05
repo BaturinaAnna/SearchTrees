@@ -13,9 +13,9 @@ class CartesianTree : public Tree {
 private:
 	Node* root;
 public:
-	void merge(Node*&, Node*, Node*); 
+	Node* merge(Node*, Node*); 
 	CartesianTree(vector<int>);
-	void split(Node*, int, Node*&, Node*&);
+	pair<Node*, Node*> split(Node*, int);
 	Node* insert_element(Node*, int);
 	Node* delete_element(Node*, int);
 	bool search_element(Node*, int);
