@@ -145,6 +145,7 @@
     <ClCompile Include="NodeAVL.cpp" />
     <ClCompile Include="NodeCartesian.cpp" />
     <ClCompile Include="RedBlackTree.cpp" />
+    <ClCompile Include="SplayTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVLTree.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="NodeAVL.h" />
     <ClInclude Include="NodeCartesian.h" />
     <ClInclude Include="RedBlackTree.h" />
+    <ClInclude Include="SplayTree.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

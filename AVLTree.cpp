@@ -141,8 +141,7 @@ Node* AVLTree::delete_element(Node* root, int key) {
         return rightRotate(rroot);
 
     // Left Right Case  
-    if (balance > 1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getLeft())) < 0)
-    {
+    if (balance > 1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getLeft())) < 0) {
         rroot->setLeft(leftRotate(dynamic_cast<NodeAVL*>(rroot->getLeft())));
         return rightRotate(rroot);
     }
@@ -152,33 +151,32 @@ Node* AVLTree::delete_element(Node* root, int key) {
         return leftRotate(rroot);
 
     // Right Left Case  
-    if (balance < -1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getRight())) > 0)
-    {
+    if (balance < -1 && getBalance(dynamic_cast<NodeAVL*>(rroot->getRight())) > 0) {
         rroot->setRight(rightRotate(dynamic_cast<NodeAVL*>(rroot->getRight())));
         return leftRotate(rroot);
     }
     return rroot;
 }
 
-bool search(Node* root, int key, bool finded) {
+bool search(Node* root, int key, bool found) {
     if (root != nullptr)
     {
         if (root->getKey() == key) {
-            finded = true;
+            found = true;
         }
         else if (root->getKey() < key) {
-            finded = search(root->getRight(), key, finded);
+            found = search(root->getRight(), key, found);
         }
         else {
-            finded = search(root->getLeft(), key, finded);
+            found = search(root->getLeft(), key, found);
         }       
     }
-    return finded;
+    return found;
 }
 
 bool AVLTree::search_element(Node* root, int key) {
-    bool finded = false;
-    return search(root, key, finded);
+    bool found = false;
+    return search(root, key, found);
 }
 
 Node* AVLTree::getRoot() {

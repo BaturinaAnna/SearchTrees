@@ -4,10 +4,24 @@
 #include "RedBlackTree.h"
 #include "AVLTree.h"
 #include "CartesianTree.h"
+#include "SplayTree.h"
 
 
 
 int main() {
+	// SPLAY TREES
+	/*
+	vector<int> s = { 10, 11, 12, 7, 2, 1, 22, 1, 13, 13, 14 };
+	SplayTree* st = new SplayTree(s);
+	st->print(st->getRoot());
+	st->delete_element(st->getRoot(), 0);
+	cout << endl;
+	st->print(st->getRoot());
+	cout << endl;
+	cout << st->search_element(st->getRoot(), 0) << endl;
+	cout << st->search_element(st->getRoot(), 22) << endl;
+	*/
+
 
 	// CARTESIAN TREES
 	/*
@@ -24,6 +38,7 @@ int main() {
 	cout << t->search_element(t->getRoot(), 0) << endl;
 	*/
 
+
 	// AVL
 	/*
 	std::set<int> my_little_set = {1, 3, 10, 5, 11, 13, 4, 2};
@@ -39,6 +54,7 @@ int main() {
 	Node* n3 = new NodeAVL(3);
 	Node* n6 = new NodeAVL(10);
 	*/
+
 
 	// RED BLACK TREES
 	/*

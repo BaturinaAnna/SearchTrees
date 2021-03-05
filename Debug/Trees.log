@@ -1,3 +1,2 @@
 ﻿  main.cpp
-C:\Users\Batur\HSE\nis\Trees\main.cpp(11,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   Trees.vcxproj -> C:\Users\Batur\HSE\nis\Trees\Debug\Trees.exe
