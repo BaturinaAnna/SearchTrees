@@ -8,8 +8,9 @@ private:
 	std::set<int> tree;
 public:
 	RedBlackTree(std::set<int> tree);
-	Node* insert_element(Node*, int x);
-	Node* delete_element(Node*, int x);
-	bool search_element(Node*, int x);
+	Node* insertNode(Node*, int x);
+	Node* deleteNode(Node*, int x);
+	bool searchNode(Node*, int x);
 	void print(Node* root);
+	void toSet(Node*, set<int>&);
 };

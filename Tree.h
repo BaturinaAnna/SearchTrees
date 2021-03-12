@@ -12,8 +12,9 @@ using namespace std;
 
 class Tree {
 public:
-	virtual Node* insert_element(Node*, int) = 0;
-	virtual Node* delete_element(Node*, int) = 0;
-	virtual bool search_element(Node*, int) = 0;
+	virtual Node* insertNode(Node*, int) = 0;
+	virtual Node* deleteNode(Node*, int) = 0;
+	virtual bool searchNode(Node*, int) = 0;
 	virtual void print(Node*) = 0;	
+	virtual void toSet(Node*, set<int>&) = 0;
 };

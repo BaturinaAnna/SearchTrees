@@ -146,6 +146,8 @@
     <ClCompile Include="NodeCartesian.cpp" />
     <ClCompile Include="RedBlackTree.cpp" />
     <ClCompile Include="SplayTree.cpp" />
+    <ClCompile Include="StressTests.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AVLTree.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="NodeCartesian.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="SplayTree.h" />
+    <ClInclude Include="StressTests.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

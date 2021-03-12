@@ -7,15 +7,16 @@ class SplayTree : public Tree {
 private:
 	Node* root;
 public:
-	SplayTree(vector<int>);
-	Node* insert_element(Node*, int);
-	Node* delete_element(Node*, int);
-	bool search_element(Node*, int);
+	SplayTree(set<int>);
+	Node* insertNode(Node*, int);
+	Node* deleteNode(Node*, int);
+	bool searchNode(Node*, int);
 
 	Node* rightRotate(Node*);
 	Node* leftRotate(Node*);
 	Node* splay(Node* root, int key);
 
 	void print(Node*);
+	void toSet(Node*, set<int>&);
 	Node* getRoot();
 };

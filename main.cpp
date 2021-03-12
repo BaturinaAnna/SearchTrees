@@ -1,14 +1,30 @@
-//#include <iostream>
-//#include <set>
-
-#include "RedBlackTree.h"
-#include "AVLTree.h"
-#include "CartesianTree.h"
-#include "SplayTree.h"
-
+#include "StressTests.h"
 
 
 int main() {
+	//stressTestInsertAVL(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestInsertSplay(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestInsertCartesian(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestInsertRedBlack(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestDeleteAVL(START_N, STEP, END_N, ITERATIONS_NUM);                        // NOT PASS
+	//stressTestDeleteSplay(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestDeleteCartesian(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestDeleteRedBlack(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestSearchAVL(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestSearchSplay(START_N, STEP, END_N, ITERATIONS_NUM);                       // FAIL
+	//stressTestSearchCartesian(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+	//stressTestSearchRedBlack(START_N, STEP, END_N, ITERATIONS_NUM); //pass
+
+
+	
+	set<int> s = { 9250, 8895, 7528, 6441, 5150, 3938, 3067, 3024, 1703, 1369 };
+	SplayTree* st = new SplayTree(s);
+	st->print(st->getRoot());
+	cout << endl;
+	cout << st->searchNode(st->getRoot(), 291);
+	
+
+
 	// SPLAY TREES
 	/*
 	vector<int> s = { 10, 11, 12, 7, 2, 1, 22, 1, 13, 13, 14 };

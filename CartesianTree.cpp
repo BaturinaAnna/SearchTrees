@@ -1,11 +1,10 @@
 #include "CartesianTree.h"
 
 
-CartesianTree::CartesianTree(vector<int> tree) {
-	int prior = rand() % 1000000;
-	Node* root = new NodeCartesian(tree[0], prior);
-	for (int i = 1; i < tree.size(); i++) {
-		root = insert_element(root, tree[i]);
+CartesianTree::CartesianTree(set<int> tree) {
+	Node* root = nullptr;
+	for (auto val : tree) {
+		root = insertNode(root, val);
 	}
 	this->root = root;
 }
@@ -47,9 +46,13 @@ pair<Node*, Node*> CartesianTree::split(Node* T, int x) {
 	}
 }
 
-Node* CartesianTree::insert_element(Node* T, int x) {	
+Node* CartesianTree::insertNode(Node* T, int x) {
 	int prior = rand() % 1000000;
 	NodeCartesian* Tnew = new NodeCartesian(x, prior);
+	if (T == nullptr) {
+		this->root = Tnew;
+		return Tnew;
+	}
 	Node* T1 = nullptr;
 	Node* T2 = nullptr;
 	pair<Node*, Node*> trees = { T1, T2 };
@@ -63,7 +66,7 @@ Node* CartesianTree::insert_element(Node* T, int x) {
 }
 
 
-Node* CartesianTree::delete_element(Node* T, int x) {
+Node* CartesianTree::deleteNode(Node* T, int x) {
 	Node* T1 = nullptr;
 	Node* T2 = nullptr;
 	Node* Tres = nullptr;
@@ -126,7 +129,15 @@ bool search_cartesian(Node* root, int key, bool finded) {
 	return finded;
 }
 
-bool CartesianTree::search_element(Node* root, int key) {
+bool CartesianTree::searchNode(Node* root, int key) {
 	bool finded = false;
 	return search_cartesian(root, key, finded);
+}
+
+void CartesianTree::toSet(Node* root, set<int>& result) {
+	if (root != nullptr) {
+		result.insert(root->getKey());
+		toSet(root->getLeft(), result);
+		toSet(root->getRight(), result);
+	}
 }

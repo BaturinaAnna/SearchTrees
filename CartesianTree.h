@@ -14,11 +14,12 @@ private:
 	Node* root;
 public:
 	Node* merge(Node*, Node*); 
-	CartesianTree(vector<int>);
+	CartesianTree(set<int>);
 	pair<Node*, Node*> split(Node*, int);
-	Node* insert_element(Node*, int);
-	Node* delete_element(Node*, int);
-	bool search_element(Node*, int);
+	Node* insertNode(Node*, int);
+	Node* deleteNode(Node*, int);
+	bool searchNode(Node*, int);
 	Node* getRoot();
+	void toSet(Node*, set<int>&);
 	void print(Node*);
 };

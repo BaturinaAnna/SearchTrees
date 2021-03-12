@@ -1,9 +1,9 @@
 #include "SplayTree.h"
 
-SplayTree::SplayTree(vector<int> tree) {
+SplayTree::SplayTree(set<int> tree) {
 	Node* root = nullptr;
 	for (auto val : tree) {
-		root = insert_element(root, val);
+		root = insertNode(root, val);
 	}
 	this->root = root;
 }
@@ -26,8 +26,10 @@ Node* SplayTree::splay(Node* root, int key) {
 	if (root == nullptr || root->getKey() == key)
 		return root;
 	if (root->getKey() > key) {
-		if (root->getLeft() == nullptr) 
-			return root;	
+		if (root->getLeft() == nullptr) {
+			this->root = root;
+			return root;
+		}
 		if (root->getLeft()->getKey() > key) { // Zig-Zig (Left Left) 
 			root->getLeft()->setLeft(splay(root->getLeft()->getLeft(), key));
 			root = rightRotate(root);
@@ -37,7 +39,7 @@ Node* SplayTree::splay(Node* root, int key) {
 			if (root->getLeft()->getRight() != nullptr)
 				root->setLeft(leftRotate(root->getLeft()));
 		}
-		return (root->getLeft() == nullptr) ? root : rightRotate(root);
+		//return (root->getLeft() == nullptr) ? root : rightRotate(root);
 		if (root->getLeft() == nullptr) {
 			this->root = root;
 			return root;
@@ -47,8 +49,10 @@ Node* SplayTree::splay(Node* root, int key) {
 		return newRoot;
 	}
 	else {
-		if (root->getRight() == nullptr) 
-			return root;		
+		if (root->getRight() == nullptr) {
+			this->root = root;
+			return root;
+		}
 		if (root->getRight()->getKey() > key) { // Zag-Zig (Right Left) 
 			root->getRight()->setLeft(splay(root->getRight()->getLeft(), key));
 			if (root->getRight()->getLeft() != nullptr)
@@ -68,15 +72,19 @@ Node* SplayTree::splay(Node* root, int key) {
 	}
 }
 
-Node* SplayTree::insert_element(Node* root, int key) {
+Node* SplayTree::insertNode(Node* root, int key) {
 	if (root == nullptr) {
 		Node* newNode = new Node(key);
 		this->root = newNode;
 		return newNode;
 	}
 	root = splay(root, key);
-	if (root->getKey() == key) 
+	print(this->getRoot());
+	cout << endl;
+	if (root->getKey() == key) {
+		this->root = root;
 		return root;
+	}
 	Node* insertedNode = new Node(key);
 	if (root->getKey() > key) {
 		insertedNode->setRight(root);
@@ -92,7 +100,7 @@ Node* SplayTree::insert_element(Node* root, int key) {
 	return insertedNode;
 }
 
-Node* SplayTree::delete_element(Node* root, int key) {
+Node* SplayTree::deleteNode(Node* root, int key) {
 	Node* temp = nullptr;
 	if (root == nullptr)
 		return nullptr;   
@@ -115,7 +123,7 @@ Node* SplayTree::delete_element(Node* root, int key) {
 	return root;
 }
 
-bool SplayTree::search_element(Node* root, int key){
+bool SplayTree::searchNode(Node* root, int key){
 	Node* found = splay(root, key);
 	if (found == root)
 		return false;
@@ -127,6 +135,14 @@ void SplayTree::print(Node* root) {
 		cout << root->getKey() << " ";
 		print(root->getLeft());
 		print(root->getRight());
+	}
+}
+
+void SplayTree::toSet(Node* root, set<int>& result) {
+	if (root != nullptr) {
+		result.insert(root->getKey());
+		toSet(root->getLeft(), result);
+		toSet(root->getRight(), result);
 	}
 }
 
