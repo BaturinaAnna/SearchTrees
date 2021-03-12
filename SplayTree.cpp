@@ -79,8 +79,6 @@ Node* SplayTree::insertNode(Node* root, int key) {
 		return newNode;
 	}
 	root = splay(root, key);
-	print(this->getRoot());
-	cout << endl;
 	if (root->getKey() == key) {
 		this->root = root;
 		return root;

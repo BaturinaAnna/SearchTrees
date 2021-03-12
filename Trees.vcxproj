@@ -147,6 +147,7 @@
     <ClCompile Include="RedBlackTree.cpp" />
     <ClCompile Include="SplayTree.cpp" />
     <ClCompile Include="StressTests.cpp" />
+    <ClCompile Include="Tests.cpp" />
     <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +159,9 @@
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="SplayTree.h" />
     <ClInclude Include="StressTests.h" />
+    <ClInclude Include="Tests.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="UnitTests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
