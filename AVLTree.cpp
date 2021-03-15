@@ -128,7 +128,6 @@ Node* AVLTree::deleteNode(Node* root, int key) {
             }
             else
                 *root = *temp;
-            free(temp);
         }
         else { 
             NodeAVL* temp = dynamic_cast<NodeAVL*>(minValueNode((root->getRight())));

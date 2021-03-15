@@ -57,7 +57,6 @@ bool StressTests::stressTestDeleteFromTree(TreeType treeType, int start_n, int s
 	for (int i = 0; i < iterations_num; i++) {
 		for (int size = start_n; size <= end_n; size += step_n) {
 			set<int> tree = makeSetFixedSize(size);
-			set<int> keysToInsert = makeSetFixedSize(size);
 			passed = passed & stressTests.Tests::deleteFromTree(treeType, tree);
 		}
 	}

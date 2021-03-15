@@ -116,7 +116,6 @@ Node* SplayTree::deleteNode(Node* root, int key) {
 		root = splay(root->getLeft(), key);
 		root->setRight(temp->getRight());
 	}
-	free(temp);
 	this->root = root;
 	return root;
 }
