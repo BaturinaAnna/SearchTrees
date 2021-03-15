@@ -1,12 +1,10 @@
 #include "StressTests.h"
-//#include "Tests.cpp"
 
 
 map<TreeType, string> TreeName = { {TreeType::AVL_TREE, "AVL trees"},
 									{TreeType::SPLAY_TREE, "Splay trees"},
 									{TreeType::CARTESIAN_TREE, "Cartesian trees"},
 									{TreeType::RED_BLACK_TREE, "Red-Black trees"} };
-
 
 bool StressTests::stressTestInsert(int start_n, int step_n, int end_n, int iterations_num) {
 	bool result = true;

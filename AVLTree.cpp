@@ -48,8 +48,11 @@ int AVLTree::getBalance(Node* N) {
 
 
 Node* AVLTree::insertNode(Node* root, int key) {
-    if (root == nullptr)
-        return new NodeAVL(key);
+    if (root == nullptr) {
+        Node* r = new NodeAVL(key);
+        this->root = r;
+        return r;
+    }
     
     if (key < root->getKey())
         root->setLeft(insertNode(dynamic_cast<NodeAVL*>(root->getLeft()), key));
