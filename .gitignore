@@ -1,4 +1,5 @@
 Debug/
 *.sln
 *.vcxproj*
-.vs/Trees/v16/
+/.vs/Trees/v16/
+/.ipynb_checkpoints/
