@@ -15,9 +15,9 @@ int main() {
 	//unitTests.unitTestOrdinaryTree();
 
 	Graphs graphs;
-	graphs.insertInfo(100, 100, 8000);
-	graphs.deleteInfo(100, 100, 8000); //CARTESIAN ---> ?????????
-	graphs.searchInfo(100, 100, 8000); //CARTESIAN ---> ?????????
+	graphs.insertInfo(10000, 10000, 30000);
+	//graphs.deleteInfo(100, 100, 8000); //CARTESIAN ---> ?????????
+	//graphs.searchInfo(100, 100, 8000); //CARTESIAN ---> ?????????
 
 	return 0;
 }

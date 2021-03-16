@@ -5,9 +5,10 @@ void Graphs::insertInfo(int start_n, int step_n, int end_n) {
 	ofstream infoFile;
 	infoFile.open("insert.csv");
 	vector<vector<int>> results = insertGraph(start_n, step_n, end_n);
-	infoFile << "AVL;Splay;Cartesian;Red-Black\n";
+	infoFile << "AVL;Cartesian;Red-Black\n";
 	for (int i = 0; i < results[0].size(); i++) {
-		infoFile << start_n + i * step_n << ";" << results[0][i] << ";" << results[1][i] << ";" << results[2][i] << ";" << results[3][i] << "\n";
+		//infoFile << start_n + i * step_n << ";" << results[0][i] << ";" << results[1][i] << ";" << results[2][i] << ";" << results[3][i] << "\n";
+		infoFile << start_n + i * step_n << ";" << results[0][i] << ";" << results[1][i] << ";" << results[2][i] << "\n";
 	}
 	infoFile.close();
 	cout << "Info for insert is recieved" << endl;
@@ -15,9 +16,11 @@ void Graphs::insertInfo(int start_n, int step_n, int end_n) {
 
 vector<vector<int>> Graphs::insertGraph(int start_n, int step_n, int end_n) {
 	vector<vector<int>> results;
-	for (TreeType treeType : {TreeType::AVL_TREE, TreeType::SPLAY_TREE, TreeType::CARTESIAN_TREE, TreeType::RED_BLACK_TREE}) {
+	//for (TreeType treeType : {TreeType::AVL_TREE, TreeType::SPLAY_TREE, TreeType::CARTESIAN_TREE, TreeType::RED_BLACK_TREE}) {
+	for (TreeType treeType : {TreeType::AVL_TREE, TreeType::CARTESIAN_TREE, TreeType::RED_BLACK_TREE}) {
 		vector<int> result = insertToTree(treeType, start_n, step_n, end_n);
 		results.push_back(result);
+		cout << "done" << endl;
 	}
 	return results;
 }
@@ -57,64 +60,84 @@ vector<int> Graphs::insertToTree(TreeType treeType, int start, int step, int end
 
 int Graphs::insertToAVL(int size) {
 	Graphs graphs;
-	set<int> tree = graphs.Tests::makeSetFixedSize(size);
-	AVLTree* testAVLTree = new AVLTree(tree);
-	set<int> keysToInsert = graphs.Tests::makeSetFixedSize(100);
-	int time = 0;
-	for (int key : keysToInsert) {
-		auto start = high_resolution_clock::now();
-		testAVLTree->insertNode(testAVLTree->getRoot(), key);
-		auto stop = high_resolution_clock::now();
-		time += duration_cast<microseconds>(stop - start).count();
+	int time_sum = 0;
+	for (int i = 0; i < 10; i++) {
+		set<int> tree = graphs.Tests::makeSetFixedSize(size);
+		AVLTree* testAVLTree = new AVLTree(tree);
+		set<int> keysToInsert = graphs.Tests::makeSetFixedSize(1000);
+		int time = 0;
+		cout << size << endl;
+		for (int key : keysToInsert) {
+			auto start = high_resolution_clock::now();
+			testAVLTree->insertNode(testAVLTree->getRoot(), key);
+			auto stop = high_resolution_clock::now();
+			time += duration_cast<microseconds>(stop - start).count();
+		}
+		time += time_sum / 1000;
 	}
-	return time/10;
+	return time_sum/10;
 }
 
 int Graphs::insertToSplay(int size) {
 	Graphs graphs;
-	set<int> tree = graphs.Tests::makeSetFixedSize(size);
-	SplayTree* testSplayTree = new SplayTree(tree);
-	set<int> keysToInsert = graphs.Tests::makeSetFixedSize(100);
-	int time = 0;
-	for (int key : keysToInsert) {
-		auto start = high_resolution_clock::now();
-		testSplayTree->insertNode(testSplayTree->getRoot(), key);
-		auto stop = high_resolution_clock::now();
-		time += duration_cast<microseconds>(stop - start).count();
-	}	
-	return time/10;
+	int time_sum = 0;
+	for (int i = 0; i < 10; i++) {
+		set<int> tree = graphs.Tests::makeSetFixedSize(size);
+		SplayTree* testSplayTree = new SplayTree(tree);
+		set<int> keysToInsert = graphs.Tests::makeSetFixedSize(1000);
+		int time = 0; 
+		cout << size << endl;
+		for (int key : keysToInsert) {
+			auto start = high_resolution_clock::now();
+			testSplayTree->insertNode(testSplayTree->getRoot(), key);
+			auto stop = high_resolution_clock::now();
+			time += duration_cast<microseconds>(stop - start).count();
+		}
+		time += time_sum / 1000;
+	}
+	return time_sum/10;
 }
 
 int Graphs::insertToRedBlack(int size) {
 	Graphs graphs;
-	set<int> tree = graphs.Tests::makeSetFixedSize(size);
-	RedBlackTree* testRedBlackTree = new RedBlackTree(tree);
-	set<int> keysToInsert = graphs.Tests::makeSetFixedSize(100);
-	int time = 0;
-	for (int key : keysToInsert) {
-		auto start = high_resolution_clock::now();
-		testRedBlackTree->insertNode(nullptr, key);
-		auto stop = high_resolution_clock::now();
-		time += duration_cast<microseconds>(stop - start).count();
+	int time_sum = 0;
+	for (int i = 0; i < 10; i++) {
+		set<int> tree = graphs.Tests::makeSetFixedSize(size);
+		RedBlackTree* testRedBlackTree = new RedBlackTree(tree);
+		set<int> keysToInsert = graphs.Tests::makeSetFixedSize(1000);
+		int time = 0;
+		cout << size << endl;
+		for (int key : keysToInsert) {
+			auto start = high_resolution_clock::now();
+			testRedBlackTree->insertNode(nullptr, key);
+			auto stop = high_resolution_clock::now();
+			time += duration_cast<microseconds>(stop - start).count();
+		}
+		time_sum += time / 1000;
 	}
-	return time/10;
+	return time_sum /10;
 }
 
 int Graphs::insertToCartesian(int size) {
 	Graphs graphs;
-	set<int> tree = graphs.Tests::makeSetFixedSize(size);
-	CartesianTree* testCartesianTree = new CartesianTree(tree);
-	set<int> keysToInsert = graphs.Tests::makeSetFixedSize(100);
-	int time = 0;
-	for (int key : keysToInsert) {
-		if (tree.find(key) == tree.end()) {
-			auto start = high_resolution_clock::now();
-			testCartesianTree->insertNode(testCartesianTree->getRoot(), key);
-			auto stop = high_resolution_clock::now();
-			time += duration_cast<microseconds>(stop - start).count();
+	int time_sum = 0;
+	for (int i = 0; i < 10; i++) {
+		set<int> tree = graphs.Tests::makeSetFixedSize(size);
+		CartesianTree* testCartesianTree = new CartesianTree(tree);
+		set<int> keysToInsert = graphs.Tests::makeSetFixedSize(1000);
+		int time = 0;
+		cout << size << endl;
+		for (int key : keysToInsert) {
+			if (tree.find(key) == tree.end()) {
+				auto start = high_resolution_clock::now();
+				testCartesianTree->insertNode(testCartesianTree->getRoot(), key);
+				auto stop = high_resolution_clock::now();
+				time += duration_cast<microseconds>(stop - start).count();
+			}
 		}
-	}	
-	return time/10;
+		time_sum += time/1000;
+	}
+	return time_sum /10;
 }
 
 //DELETE

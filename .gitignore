@@ -1,5 +1,5 @@
 Debug/
 *.sln
 *.vcxproj*
-/.vs/Trees/v16/
-/.ipynb_checkpoints/
+.*
+!/.gitignore
