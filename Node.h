@@ -7,7 +7,7 @@ protected:
     Node* left;
     Node* right;
 public:
-    Node(int key);
+    Node(int);
     int getKey();
     Node* getLeft();
     Node* getRight();

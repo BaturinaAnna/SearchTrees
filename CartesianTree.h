@@ -15,6 +15,7 @@ private:
 public:
 	Node* merge(Node*, Node*); 
 	CartesianTree(set<int>);
+	CartesianTree(vector<int>);
 	pair<Node*, Node*> split(Node*, int);
 	Node* insertNode(Node*, int);
 	Node* deleteNode(Node*, int);

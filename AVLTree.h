@@ -11,6 +11,7 @@ private:
 	Node* root;
 public:
 	AVLTree(set<int>);
+	AVLTree(vector<int>);
 	Node* insertNode(Node*, int);
 	Node* deleteNode(Node*, int);
 	bool searchNode(Node*, int);

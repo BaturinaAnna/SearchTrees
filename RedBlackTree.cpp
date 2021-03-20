@@ -1,7 +1,11 @@
 #include "RedBlackTree.h"
 
-RedBlackTree::RedBlackTree(std::set<int> tree) {
+RedBlackTree::RedBlackTree(set<int> tree) {
 	this->tree = tree;
+}
+
+RedBlackTree::RedBlackTree(vector<int> tree) {
+	this->tree = set<int>(tree.begin(), tree.end());
 }
 
 Node* RedBlackTree::insertNode(Node* node, int x) {

@@ -2,10 +2,10 @@
 
 #include "Tests.h"
 
-#define START_N_STRESS 10
-#define STEP_STRESS 5
-#define END_N_STRESS 20
-#define ITERATIONS_NUM_STRESS 1
+#define START_N_STRESS 10000
+#define STEP_STRESS 10000
+#define END_N_STRESS 10000001
+#define ITERATIONS_NUM_STRESS 10
 
 
 class StressTests: public Tests {

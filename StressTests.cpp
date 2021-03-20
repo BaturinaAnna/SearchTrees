@@ -1,6 +1,5 @@
 #include "StressTests.h"
 
-
 map<TreeType, string> TreeName = { {TreeType::AVL_TREE, "AVL trees"},
 									{TreeType::SPLAY_TREE, "Splay trees"},
 									{TreeType::CARTESIAN_TREE, "Cartesian trees"},
@@ -28,14 +27,14 @@ bool StressTests::stressTestSearch(int start_n, int step_n, int end_n, int itera
 }
 
 // INSERT
-
 bool StressTests::stressTestInsertToTree(TreeType treeType, int start_n, int step_n, int end_n, int iterations_num) {
 	bool passed = true;
 	StressTests stressTests;
 	for (int i = 0; i < iterations_num; i++) {
 		for (int size = start_n; size <= end_n; size += step_n) {
-			set<int> tree = makeSetFixedSize(size);
-			set<int> keysToInsert = makeSetFixedSize(size);
+			vector<int> backet = stressTests.Tests::makeVectorFixedSize(0, size + 10000);
+			vector<int> tree(backet.begin(), backet.begin() + size);
+			vector<int> keysToInsert(backet.begin() + size, backet.end());
 			passed = passed & stressTests.Tests::insertToTree(treeType, tree, keysToInsert);
 		}
 	}
@@ -50,13 +49,12 @@ bool StressTests::stressTestInsertToTree(TreeType treeType, int start_n, int ste
 
 
 // DELETE
-
 bool StressTests::stressTestDeleteFromTree(TreeType treeType, int start_n, int step_n, int end_n, int iterations_num) {
 	bool passed = true;
 	StressTests stressTests;
 	for (int i = 0; i < iterations_num; i++) {
 		for (int size = start_n; size <= end_n; size += step_n) {
-			set<int> tree = makeSetFixedSize(size);
+			vector<int> tree = makeVectorFixedSize(0, size);
 			passed = passed & stressTests.Tests::deleteFromTree(treeType, tree);
 		}
 	}
@@ -70,14 +68,14 @@ bool StressTests::stressTestDeleteFromTree(TreeType treeType, int start_n, int s
 
 
 // SEARCH
-
 bool StressTests::stressTestSearchInTree(TreeType treeType, int start_n, int step_n, int end_n, int iterations_num) {
 	bool passed = true;
 	StressTests stressTests;
 	for (int i = 0; i < iterations_num; i++) {
 		for (int size = start_n; size <= end_n; size += step_n) {
-			set<int> tree = makeSetFixedSize(size);
-			set<int> keysToSearch = makeSetFixedSize(3 * size);
+			vector<int> backet = stressTests.Tests::makeVectorFixedSize(0, size + 10000);
+			vector<int> tree(backet.begin(), backet.begin() + size);
+			vector<int> keysToSearch(backet.begin(), backet.end());
 			passed = passed & stressTests.Tests::searchInTree(treeType, tree, keysToSearch);
 		}
 	}

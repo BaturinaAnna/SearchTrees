@@ -9,6 +9,14 @@ CartesianTree::CartesianTree(set<int> tree) {
 	this->root = root;
 }
 
+CartesianTree::CartesianTree(vector<int> tree) {
+	Node* root = nullptr;
+	for (auto val : tree) {
+		root = insertNode(root, val);
+	}
+	this->root = root;
+}
+
 Node* CartesianTree::merge(Node* T1, Node* T2) {
 	if (T2 == nullptr)
 		return T1;

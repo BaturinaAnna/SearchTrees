@@ -5,12 +5,13 @@
 
 class RedBlackTree : public Tree {
 private:
-	std::set<int> tree;
+	set<int> tree;
 public:
-	RedBlackTree(std::set<int> tree);
-	Node* insertNode(Node*, int x);
-	Node* deleteNode(Node*, int x);
-	bool searchNode(Node*, int x);
-	void print(Node* root);
+	RedBlackTree(std::set<int>);
+	RedBlackTree(vector<int>);
+	Node* insertNode(Node*, int);
+	Node* deleteNode(Node*, int);
+	bool searchNode(Node*, int);
+	void print(Node*);
 	void toSet(Node*, set<int>&);
 };
